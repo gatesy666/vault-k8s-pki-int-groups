@@ -39,12 +39,6 @@ spec:
       # Optional field
       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
       nodePort: 32443
-    - port: 80
-      targetPort: 80
-      # Optional field
-      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
-      nodePort: 32080
-      name: http
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -54,12 +48,13 @@ spec:
   selector:
     matchLabels:
       run: vault-agent-colin-testing
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
         run: vault-agent-colin-testing
       annotations:
+        vault.hashicorp.com/log-level: "trace"
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "vault-agent-auth"
         vault.hashicorp.com/tls-skip-verify: "true"
