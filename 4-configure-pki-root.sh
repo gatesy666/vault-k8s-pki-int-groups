@@ -1,13 +1,8 @@
 #!/bin/sh
 
 export VAULT_ADDR=http://127.0.0.1:8200
-if [ ! -f "my_ip.txt" ]
-then
-  echo "Please set your local ip in a file called my_ip.txt"
-  exit 1
-fi
 
-export EXTERNAL_VAULT_ADDR="http://$(cat my_ip.txt):8200"
+export EXTERNAL_VAULT_ADDR=http://$(minikube ssh "dig +short host.docker.internal" | tr -d '\r'):8200
 
 unset VAULT_NAMESPACE
 
